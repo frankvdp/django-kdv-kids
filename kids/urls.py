@@ -1,5 +1,4 @@
 from django.conf.urls.defaults import patterns, url
-from django.views.generic.list_detail import *
 from kids.views import *
 # from django.views.decorators.cache import cache_page
 
