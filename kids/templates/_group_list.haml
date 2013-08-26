@@ -1,0 +1,22 @@
+- load thumbnail
+
+.listitem
+    .row
+        .span4
+            - if group.groupimage
+                .thumbnail
+                    %a{'href': '{{ group.get_absolute_url }}', 'class': ''}
+                        - thumbnail group.groupimage '400' crop='center' upscale='True' as im
+                            %img{"class":"", "src":"{{im.url}}"}
+                        - endthumbnail
+        
+        .span4{'class': '{% if not group.groupimage %}offset4{% endif %}'}
+            %h3
+                %a{'href': '{{ group.get_absolute_url }}'}
+                    {{ group.title }}
+            %p
+                {{ group.publish_at|date:'j b Y' }} - {{ group.intro|striptags|truncatewords:'40' }}
+            %a{'href': '{{ group.get_absolute_url }}', 'class': 'btn btn-small'}
+                lees verder
+        .span8
+            %hr

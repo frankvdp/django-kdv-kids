@@ -1,0 +1,137 @@
+- extends 'subnav.haml'
+- load thumbnail
+
+
+- load staticfiles
+
+-block head_title
+  \: {{ article.title }}
+            
+- block head_description
+    {{ article.intro }}
+
+- block body_class
+    article
+
+- block body
+        .row
+            .span8
+                %h3
+                    %small
+                        kid 
+                    {{ kid.name }}
+
+        .row  
+            .span4
+                - if kid.image
+                    .thumbnail
+                        - thumbnail kid.image '400' crop='center' upscale='True' as im
+                            %img{"class":"", "src":"{{im.url}}"}
+                        - endthumbnail
+            .span4
+                .well
+                    %dl
+                        %dt Volledige naam
+                        %dd {{ kid.fullname }}
+                        %dt Groep
+                        %dd 
+                            %a{'href': '{{kid.group.get_absolute_url}}', 'class': 'badge badge-success'}
+                                {{ kid.group }}
+                            &nbsp;
+                            - for caretaker in kid.group.caretakers.all
+                                %a{'href': '{{caretaker.get_absolute_url}}', 'class': 'badge badge-warning'}
+                                    %i.icon-user.icon-white
+                                    {{ caretaker.name}}
+                                &nbsp;
+
+                        %dt Geb. datum
+                        %dd {{ kid.birth_date }}
+
+                        %dt Leeftijd
+                        %dd {{ kid.age }}
+
+                        - if kid.description
+                            %dt
+                                Beschrijving
+                            %dd
+                                {{ kid.description }}
+
+
+        - if kid.parents.all
+            .row
+                .span8
+                    %hr
+                .span8
+                    %h3 Ouder(s)
+
+        - for parent in kid.parents.all
+            .row
+                .span4
+                    .thumbnail
+                        - thumbnail parent.image '400' crop='center' upscale='True' as im
+                            %img{"class":"", "src":"{{im.url}}"}
+                        - endthumbnail
+                .span4
+                    .well
+                        %dl
+                            %dt Naam
+                            %dd {{ parent.name }}
+
+                            %dt Volledige naam
+                            %dd {{ parent.fullname }}
+
+                            - if parent.twitter
+                                %dt Twitter
+                                %dd {{ parent.twitter }}
+
+                            - if parent.facebook
+                                %dt Facebook
+                                %dd {{ parent.facebook }}
+
+                            - if parent.email
+                                %dt E-mail
+                                %dd {{ parent.email }}
+
+                            - if parent.telefoon1
+                                %dt Telefoon 1
+                                %dd {{ parent.telefoon1 }}
+
+                            - if parent.telefoon2
+                                %dt Telefoon 2
+                                %dd {{ parent.telefoon2 }}
+
+                            - if parent.telefoon3
+                                %dt Telefoon 3
+                                %dd {{ parent.telefoon3 }}
+
+
+            .span8
+                %hr
+            - if group.kids.all
+                - for kid in group.kids.all
+                    .span2
+                        %a{'href': '{{ kid.get_absolute_url }}', 'class': ''}
+                            - thumbnail kid.image '200x150' crop='center' upscale='True' as im
+                                %img{"class": "", "src": "{{im.url}}"}
+                            - endthumbnail
+                    .span2
+                        %h3
+                            {{kid.name}}
+                        %em
+                            {{kid.age}}
+                .span8
+                    %hr
+
+- if kid.group.articles.all or kid.articles.all
+
+    - block subnav
+        - if kid.group.articles.all
+            %h3
+                Artikelen over {{kid.group}}
+            %ul
+                - for article in kid.group.articles.all
+                    %li
+                        %a{'href': '{{article.get_absolute_url}}', 'class': ''}
+                            {{ article.title }}
+        {{block.super}}
+

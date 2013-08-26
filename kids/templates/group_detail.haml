@@ -1,0 +1,70 @@
+- extends 'subnav.haml'
+- load thumbnail
+
+
+- load staticfiles
+
+-block head_title
+  \: {{ article.title }}
+      
+- block head_description
+  {{ article.intro }}
+
+- block body_class
+  article
+
+- block body
+    .row
+      .span4
+        %h3
+          %small
+            Groep 
+          {{ group.title }}
+        - if group.groupimage
+          .thumbnail
+            %a{'href': '{{ group.get_absolute_url }}', 'class': ''}
+              - thumbnail group.groupimage '400' crop='center' upscale='True' as im
+                %img{"class":"", "src":"{{im.url}}"}
+              - endthumbnail
+      
+      .span4
+        %h3
+          Begeleidsters
+        
+        - for caretaker in group.caretakers.all
+          .row
+            .span1
+              .thumbnail
+                - thumbnail caretaker.image '200x150' crop='center' upscale='True' as im
+                  %img{"class": "", "src": "{{im.url}}"}
+                - endthumbnail
+            .span3
+              %h5
+                {{ caretaker.fullname }}
+          .row
+            .span4
+              %hr
+
+      .span8
+        %hr
+
+    - if group.kids.all
+      - for kid in group.kids.all
+        - if not forloop.counter|divisibleby:'2'
+          <div class="row">
+        .kidinfo
+          .span2
+            %a{'href': '{{ kid.get_absolute_url }}', 'class': 'thumbnail'}
+              - thumbnail kid.image '200x150' crop='center' upscale='True' as im
+                %img{"class": "", "src": "{{im.url}}"}
+              - endthumbnail
+          .span2
+            %h3
+              {{kid.name}}
+            %em
+              {{kid.age}}
+        - if forloop.counter|divisibleby:'2' or forloop.last
+          </div>
+          .row
+            .span8
+              %hr

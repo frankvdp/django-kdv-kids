@@ -1,0 +1,57 @@
+- extends 'subnav.haml'
+- load thumbnail
+
+
+- load staticfiles
+
+-block head_title
+  \: {{ article.title }}
+            
+- block head_description
+    {{ article.intro }}
+
+- block body_class
+    caretaker
+
+- block body
+        .row
+            .span8
+                %h3
+                    %small
+                        caretaker 
+                    {{ caretaker.name }}
+
+        .row  
+            .span4
+                - if caretaker.image
+                    .thumbnail
+                        - thumbnail caretaker.image '400' crop='center' upscale='True' as im
+                            %img{"class":"", "src":"{{im.url}}"}
+                        - endthumbnail
+            .span4
+                .well
+                    %dl
+                        %dt Volledige naam
+                        %dd {{ caretaker.fullname }}
+                        %dt Groep
+                        %dd 
+                            %a{'href': '{{caretaker.group.get_absolute_url}}', 'class': 'badge badge-success'}
+                                {{ caretaker.group }}
+
+                        %dt Geb. datum
+                        %dd {{ caretaker.birth_date }}
+
+                        %dt Leeftijd
+                        %dd {{ caretaker.age }}
+
+                        - if caretaker.description
+                            %dt
+                                Beschrijving
+                            %dd
+                                {{ caretaker.description }}
+
+
+            .span8
+                %hr
+
+            
