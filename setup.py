@@ -14,9 +14,8 @@ setup(
     license='No License',  # example license
     description='A simple Django app for kdv kids.',
     long_description=README,
-    # url='http://www.example.com/',
     author='Frank van der Pluijm',
-    author_email='frank@plumos.nl',
+    author_email='frank@frankfrank.nl',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
